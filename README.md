@@ -2,28 +2,27 @@
 
 # Klotski: The Sliding Block Puzzle  
 
+🚀 **A modern take on the classic Klotski puzzle on Reddit, inspired by ZH Computer’s 1991 Windows 3 release.**  
 
-🚀 A modern take on the classic Klotski puzzle, inspired by ZH Computer’s 1991 Windows 3 release.
+![Game Screenshot](your-image-url-here)  
 
+## **🧩 What is Klotski?**  
+Klotski (华容道) is a timeless sliding block puzzle that challenges players to move pieces around a grid, aiming to free the largest block—*Cao Cao*—through the exit. Originally published by **ZH Computer** in **1991 for Windows 3**, it has since captivated puzzle lovers worldwide.  
 
-🧩 What is Klotski?
-Klotski (华容道) is a timeless sliding block puzzle that challenges players to move pieces around a grid, aiming to free the largest block—Cao Cao—through the exit. Originally published by ZH Computer in 1991 for Windows 3, it has since captivated puzzle lovers worldwide.
+## **🎮 Features**  
+✅ **Classic Gameplay** – Faithful to the original Klotski mechanics  
+✅ **Modern UI & Smooth Controls** – Enjoy an optimized, user-friendly experience  
+✅ **Multiple Levels** – Solve different layouts with increasing difficulty  
+✅ **Hints & Undo** – Stuck? Get a nudge in the right direction  
+✅ **Leaderboards** – Compete for the fastest solve times  
 
-🎮 Features
-✅ Classic Gameplay – Faithful to the original Klotski mechanics
-✅ Modern UI & Smooth Controls – Enjoy an optimized, user-friendly experience
-✅ Multiple Levels – Solve different layouts with increasing difficulty
-✅ Hints & Undo – Stuck? Get a nudge in the right direction
-✅ Leaderboards – Compete for the fastest solve times
+## **🚀 How to Play?**  
+1. **Move the blocks** by dragging them within the grid.  
+2. Your goal: **Guide the large block (Cao Cao) to the exit**.  
+3. Use strategy! Fewer moves = higher score.  
 
-🚀 How to Play?
-Move the blocks by dragging them within the grid.
+## **🔗 Play Now!**  
 
-Your goal: Guide the large block (Cao Cao) to the exit.
-
-Use strategy! Fewer moves = higher score.
-
-🔗 Play Now!
 👉 [=Game Link =](https://www.reddit.com/r/ChinesePuzzle/
 )
 
