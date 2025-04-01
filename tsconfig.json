@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "lib": ["esnext", "dom", "DOM.Iterable"],
+    "allowImportingTsExtensions": true, // ✅ Allow importing .ts/.tsx files
+    "resolveJsonModule": true,     // ✅ Allow JSON imports
+    "esModuleInterop": true,       // ✅ Ensure compatibility with CommonJS
+    "strict": false,           
+    "types": ["vitest"],
+    "noEmit": true,
+    "baseUrl": "./",                     // ✅ Enables multiple base paths
+    "paths": {
+      "@src/*": ["src/*"],                // Aliases for src
+      "@web/*": ["webroot/*"]             // Aliases for webroot
+    },
+  },
+  "type": "module",
+  "include": ["./src/**/*", "./webroot/**/*"],
+  "extends": "@devvit/public-api/devvit.tsconfig.json"
+}

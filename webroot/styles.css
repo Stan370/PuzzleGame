@@ -1,0 +1,600 @@
+:root {
+  --cell-size: 90px;  /* Increased from 60px to 90px (50% larger) */
+  --board-color: #f0d9b5;
+  --piece-color: #b58863;
+  --cao-color: #d18b47;
+  --text-color: #f4f4f4;
+  --border-color: #000000;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  background: #2f2f2f;
+  font-family: Arial, sans-serif;
+}
+
+.game-container {
+  text-align: center;
+  height: 100%;
+
+}
+
+.board-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(4, var(--cell-size));
+  grid-template-rows: repeat(5, var(--cell-size));
+  gap: 2px;
+  padding: 10px;
+  background: var(--board-color);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  position: relative;
+  border: 5px solid var(--border-color); /* Add border to the wrapper */
+  border-radius: 10px; /* Optional: Match border-radius with .board */
+  padding: 10px; /* Optional: Add padding to the wrapper */
+  border-bottom-width: 0px;
+}
+
+.piece {
+  background: var(--piece-color);
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  color: var(--text-color);
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.piece:hover {
+  filter: brightness(1.1);
+}
+
+.piece.selected {
+  filter: brightness(1.2);
+  transform: scale(0.95);
+}
+
+.piece.cao {
+  background: var(--cao-color);
+}
+
+.controls {
+  margin-top: 20px;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  background: var(--piece-color);
+  color: var(--text-color);
+  cursor: pointer;
+  margin: 0 5px;
+}
+
+button:hover {
+  filter: brightness(1.1);
+}
+
+.stats {
+  margin-top: 10px;
+  color: var(--text-color);
+}
+
+.direction-arrow {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center; /* Center the SVG icon vertically */
+  cursor: pointer;
+  z-index: 100;
+  transition: transform 0.2s;
+}
+
+.direction-arrow:hover {
+  transform: scale(1.1);
+  filter: brightness(1.1);
+}
+
+.direction-arrow svg {
+  fill: var(--text-color);
+}
+
+.level-selector {
+  margin-bottom: 20px;
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+}
+
+.level-selector select {
+  padding: 8px 15px;
+  font-size: 16px;
+  border: 2px solid var(--piece-color);
+  border-radius: 4px;
+  background: var(--board-color);
+  color: var(--piece-color);
+  cursor: pointer;
+}
+
+.level-selector select:hover {
+  border-color: var(--cao-color);
+}
+
+.language-selector {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+
+.language-selector select {
+  padding: 8px 15px;
+  font-size: 16px;
+  border: 2px solid var(--piece-color);
+  border-radius: 4px;
+  background: var(--board-color);
+  color: var(--piece-color);
+  cursor: pointer;
+}
+
+.controls-row {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.hint-btn {
+  margin-left: 8px;
+  width: 24px;
+  height: 24px;
+  border-radius: 12px;
+  border: none;
+  background: #666;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.hint-btn:hover {
+  background: #888;
+}
+
+.tooltip-container {
+  display: inline-block;
+  position: relative;
+  margin-left: 8px;
+  align-items: center;
+}
+
+.tooltip-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 12px;
+  background: #666;
+  color: white;
+  font-weight: bold;
+  cursor: help;
+}
+
+.tooltip-content {
+  display: none;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 10px;
+  width: 200px;
+  background: var(--board-color);
+  color: var(--piece-color);
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  z-index: 100;
+}
+
+.tooltip-content::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 0 6px 6px 6px;
+  border-style: solid;
+  border-color: transparent transparent var(--board-color) transparent;
+}
+
+.tooltip-header {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.tooltip-container:hover .tooltip-content {
+  display: block;
+}
+
+.tooltip-content h3 {
+  margin: 12px 0 8px;
+  color: var(--cao-color);
+}
+
+.tooltip-content p {
+  margin: 0 0 8px 0;
+  line-height: 1.4;
+}
+
+.level-selector {
+  margin-bottom: 20px;
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+}
+
+.level-selector select {
+  padding: 8px 15px;
+  font-size: 16px;
+  border: 2px solid var(--piece-color);
+  border-radius: 4px;
+  background: var(--board-color);
+  color: var(--piece-color);
+  cursor: pointer;
+}
+
+.level-selector select:hover {
+  border-color: var(--cao-color);
+}
+
+.language-selector {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+
+.language-selector select {
+  padding: 8px 15px;
+  font-size: 16px;
+  border: 2px solid var(--piece-color);
+  border-radius: 4px;
+  background: var(--board-color);
+  color: var(--piece-color);
+  cursor: pointer;
+}
+
+.controls-row {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.hint-btn {
+  margin-left: 8px;
+  width: 24px;
+  height: 24px;
+  border-radius: 12px;
+  border: none;
+  background: #666;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.hint-btn:hover {
+  background: #888;
+}
+
+.tooltip-container {
+  display: inline-block;
+  position: relative;
+  margin-left: 8px;
+  align-items: center;
+}
+
+.tooltip-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 12px;
+  background: #666;
+  color: white;
+  font-weight: bold;
+  cursor: help;
+}
+
+.tooltip-content {
+  display: none;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 10px;
+  width: 200px;
+  background: var(--board-color);
+  color: var(--piece-color);
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 100;
+}
+
+.tooltip-content::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 0 6px 6px 6px;
+  border-style: solid;
+  border-color: transparent transparent var(--board-color) transparent;
+}
+
+.tooltip-header {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.tooltip-container:hover .tooltip-content {
+  display: block;
+}
+
+.tooltip-content h3 {
+  margin: 12px 0 8px;
+  color: var(--cao-color);
+}
+
+.tooltip-content p {
+  margin: 0 0 8px 0;
+  line-height: 1.4;
+}
+
+.game-intro {
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.leaderboard-container {
+  margin-top: 20px;
+  padding: 15px;
+  background: var(--board-color);
+  border-radius: 8px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.leaderboard-container h2 {
+  color: var(--piece-color);
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.leaderboard-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  margin-bottom: 15px;
+}
+
+.tab-button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  background: var(--piece-color);
+  color: var(--text-color);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.tab-button.active {
+  background: var(--cao-color);
+}
+
+.leaderboard-content {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  padding: 10px;
+}
+
+.leaderboard-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.leaderboard-entry {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 10px;
+  background: var(--piece-color);
+  color: var(--text-color);
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.leaderboard-entry .rank {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.leaderboard-entry .score {
+  font-weight: bold;
+}
+.game-intro {
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+/* Level Editor Styles */
+.editor-btn {
+  background: var(--cao-color);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.editor-btn:hover {
+  background: var(--cao-color-dark);
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-content {
+  background: var(--board-color);
+  padding: 2rem;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.editor-controls {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 1rem;
+}
+
+.editor-tools {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.tool-btn {
+  padding: 8px 16px;
+  border: 2px solid var(--piece-color);
+  border-radius: 4px;
+  background: var(--board-color);
+  color: var(--piece-color);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tool-btn:hover {
+  border-color: var(--cao-color);
+  color: var(--cao-color);
+}
+
+.tool-btn.active {
+  background: var(--cao-color);
+  color: white;
+  border-color: var(--cao-color);
+}
+
+.editor-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.editor-info input,
+.editor-info textarea,
+.editor-info select {
+  padding: 8px;
+  border: 2px solid var(--piece-color);
+  border-radius: 4px;
+  background: var(--board-color);
+  color: var(--piece-color);
+}
+
+.editor-info textarea {
+  height: 100px;
+  resize: vertical;
+}
+
+.editor-board {
+  width: 100%;
+  aspect-ratio: 4/5;
+  background: var(--board-color);
+  border: 2px solid var(--piece-color);
+  border-radius: 4px;
+  margin: 1rem 0;
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  gap: 2px;
+  padding: 2px;
+}
+
+.editor-board .cell {
+  background: var(--piece-color);
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.editor-board .cell:hover {
+  background: var(--cao-color);
+}
+
+.editor-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+.editor-actions button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+#saveLevel {
+  background: var(--cao-color);
+  color: white;
+}
+
+#testLevel {
+  background: var(--piece-color);
+  color: var(--board-color);
+}
+
+#closeEditor {
+  background: #666;
+  color: white;
+}
+
+.editor-actions button:hover {
+  opacity: 0.9;
+}

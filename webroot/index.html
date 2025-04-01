@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="华容道 (Huarong Dao), also known as Klotski, is a classic Chinese puzzle game inspired by historical tales. Play now and test your strategy skills!" />
+    <meta name="keywords" content="Games,Huarong Dao, Klotski, sliding puzzle game, 华容道, 曹操, ancient China" />
+    <meta name="author" content="Stan Ke" />
+    <meta property="og:title" content="华容道 - Huarong Dao" />
+    <meta property="og:description" content="Explore the ancient Chinese sliding block puzzle game, 华容道 (Huarong Dao), based on the historical tale of Cao Cao and Guan Yu." />
+    <meta property="og:image" content="public/CaocaoFailed.webp" />
+    <meta property="og:type" content="website" />
+    <title>华容道 - Huarong Dao</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="game-container">
+      <h1 style="color: var(--text-color)">Huarong Dao</h1>
+      <div class="controls-row">
+        <div class="level-selector">
+          <select id="levelSelector">
+            <option value="0">Level 1</option>
+            <option value="1">Level 2</option>
+            <option value="2">Level 3</option>
+            <option value="3">Level 4</option>
+            <option value="4">Level 5</option>
+          </select>
+          
+        </div>
+        <div class="tooltip-container">
+          <span class="tooltip-trigger">?</span>
+          <div class="tooltip-content">
+            <div class="tooltip-header">Huarong Dao Klotski</div>
+            <p> Huarong Dao(Aka. Klotski) is an ancient Chinese puzzle game based on the story of Cao Cao being surrounded after Guandu war. The goal is to solve the puzzle  a minimum number of moves or in a minimum amount of time.
+            </p>
+            <div id="levelDescription"></div>
+          </div>
+        </div>
+        <div class="language-selector">
+          <select id="languageSelector">
+            <option value="en">English</option>
+            <option value="zh">中文</option>
+          </select>
+        </div>
+      </div>
+      <div class="board-wrapper">
+        <div class="board" id="board"></div>
+      </div>
+      <div class="controls">
+        <button id="resetBtn">Reset Game</button>
+        <button id="undoBtn">Undo Move</button>
+      </div>
+      <div class="stats">
+        Moves: <span id="moveCount">0</span> | Best:
+        <span id="bestScore">-</span>
+      </div>
+
+    </div>
+    <script>
+      console.log('Page loading...');
+      window.onerror = function(msg, url, line) {
+          console.log('Error: ' + msg);
+          console.log('URL: ' + url);
+          console.log('Line: ' + line);
+          return false;
+      };
+      window.addEventListener('load', () => {
+          console.log('Page loaded');
+          window.parent.postMessage({ type: 'webViewReady' }, '*');
+      });
+  </script>
+    <script type="module" src="./game.js" onerror="console.log('Failed to load game.js')"></script>
+    <script type="module">
+      import { HuarongGame } from "./game.js";
+      window.addEventListener("DOMContentLoaded", () => {
+        new HuarongGame(0);
+      });
+    </script>
+    
+  </body>
+</html>
