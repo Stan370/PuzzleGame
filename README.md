@@ -4,7 +4,6 @@
 
 🚀 **A modern take on the classic Klotski puzzle on Reddit, inspired by ZH Computer’s 1991 Windows 3 release.**  
 
-![Game Screenshot](your-image-url-here)  
 
 ## **🧩 What is Klotski?**  
 Klotski (华容道) is a timeless sliding block puzzle that challenges players to move pieces around a grid, aiming to free the largest block—*Cao Cao*—through the exit. Originally published by **ZH Computer** in **1991 for Windows 3**, it has since captivated puzzle lovers worldwide.  
