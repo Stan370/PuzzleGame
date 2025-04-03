@@ -3,6 +3,7 @@
 # Klotski: The Sliding Block Puzzle  
 
 🚀 **A modern take on the classic Klotski puzzle on Reddit, inspired by ZH Computer’s 1991 Windows 3 release.**  
+  [Participated in Hack Reddit 2025!](https://devpost.com/software/reddit-klotski-puzzle)
 
 
 ## **🧩 What is Klotski?**  
