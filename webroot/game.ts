@@ -1,5 +1,5 @@
-import { translations, Language } from './translations.js';
-import { BUILT_IN_LEVELS, getUserLevels, getAllLevels, saveUserLevel, deleteUserLevel, Level, Block } from './gameLayout.js';
+import { translations, Language } from './translations.ts';
+import { BUILT_IN_LEVELS, getUserLevels, getAllLevels, saveUserLevel, deleteUserLevel, Level, Block } from './gameLayout.ts';
 
 interface BlockType {
   width: number;
@@ -83,7 +83,6 @@ export class HuarongGame {
     this.initializeLanguageSelector();
     this.initializeHintSystem();
     this.setupMessageHandlers();
-    this.initializeLeaderboard();
     this.initializeLevelEditor();
   }
 
@@ -1052,3 +1051,7 @@ export class HuarongGame {
     }
   }
 }
+
+// Expose for non-module usage after bundling
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+(window as any).HuarongGame = HuarongGame;

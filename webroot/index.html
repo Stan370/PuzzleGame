@@ -69,11 +69,10 @@
           window.parent.postMessage({ type: 'webViewReady' }, '*');
       });
   </script>
-    <script type="module" src="./game.js" onerror="console.log('Failed to load game.js')"></script>
-    <script type="module">
-      import { HuarongGame } from "./game.js";
+    <script type="module" src="/game.bundle.js"></script>
+    <script>
       window.addEventListener("DOMContentLoaded", () => {
-        new HuarongGame(0);
+        new window.HuarongGame(0);
       });
     </script>
     
