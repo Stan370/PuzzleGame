@@ -606,41 +606,56 @@ export class HuarongGame {
       .querySelectorAll(".direction-arrow")
       .forEach((arrow) => arrow.remove());
 
+    // Decide arrow size relative to piece (min/max guard)
+    const pieceW = rect.width;
+    const pieceH = rect.height;
+    const base = Math.min(pieceW, pieceH);
+    let arrowSize = Math.round(base * 0.55);      // 55% of piece short side
+    arrowSize = Math.max(24, Math.min(arrowSize, 48)); // clamp between 24 and 48
+
+    // Expose --arrow-size to CSS (handy if svg uses em units)
+    board.style.setProperty("--arrow-size", `${arrowSize}px`);
+
+    // Center of piece relative to board
+    const centerX = rect.left - boardRect.left + rect.width / 2;
+    const centerY = rect.top - boardRect.top + rect.height / 2;
+
     moves.forEach((move) => {
       const arrow = document.createElement("div");
       arrow.className = "direction-arrow";
+      // Inline size fallback
+      arrow.style.width = `${arrowSize}px`;
+      arrow.style.height = `${arrowSize}px`;
 
-      // Calculate position relative to the piece
       const direction = this.getDirectionText(block, move);
-      const svgIcon = this.getDirectionSVG(direction);
+      const svgIcon = this.getDirectionSVG(direction, arrowSize);
 
-      // Position the arrow based on direction
-      const pieceWidth = rect.width;
-      const pieceHeight = rect.height;
-      const arrowSize = 34;
-      let left, top;
+      // Compute pos: start from center, then offset by half-piece + half-arrow + gap
+      const gap = 6; // px gap between piece and arrow
+      let x = centerX;
+      let y = centerY;
 
       switch (direction) {
         case "Left":
-          left = rect.left - boardRect.left - arrowSize;
-          top = rect.top - boardRect.top + pieceHeight / 2 - arrowSize / 2 - 3;
+          x = centerX - rect.width / 2 - arrowSize / 2 - gap;
+          y = centerY;
           break;
         case "Right":
-          left = rect.right - boardRect.left - 7;
-          top = rect.top - boardRect.top + pieceHeight / 2 - arrowSize / 2 - 3;
+          x = centerX + rect.width / 2 + arrowSize / 2 + gap;
+          y = centerY;
           break;
         case "Up":
-          left = rect.left - boardRect.left + pieceWidth / 2 - arrowSize / 2 - 3;
-          top = rect.top - boardRect.top - arrowSize;
+          x = centerX;
+          y = centerY - rect.height / 2 - arrowSize / 2 - gap;
           break;
         case "Down":
-          left = rect.left - boardRect.left + pieceWidth / 2 - 20;
-          top = rect.bottom - boardRect.top - 7;
+          x = centerX;
+          y = centerY + rect.height / 2 + arrowSize / 2 + gap;
           break;
       }
 
-      arrow.style.left = `${left}px`;
-      arrow.style.top = `${top}px`;
+      arrow.style.left = `${x}px`;
+      arrow.style.top = `${y}px`;
       arrow.innerHTML = svgIcon;
 
       arrow.onclick = () => {
@@ -661,12 +676,13 @@ export class HuarongGame {
     return "Down";
   }
 
-  getDirectionSVG(direction: string) {
+  getDirectionSVG(direction: string, size: number = 34) {
+    const common = `width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"`;
     const svgs = {
-      Right: `<svg width="64px" height="64px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M21 12C21 12.2652 20.8946 12.5196 20.7071 12.7071L13.7071 19.7071C13.3166 20.0976 12.6834 20.0976 12.2929 19.7071C11.9024 19.3166 11.9024 18.6834 12.2929 18.2929L17.5858 13H4C3.44772 13 3 12.5523 3 12C3 11.4477 3.44772 11 4 11H17.5858L12.2929 5.70711C11.9024 5.31658 11.9024 4.68342 12.2929 4.29289C12.6834 3.90237 13.3166 3.90237 13.7071 4.29289L20.7071 11.2929C20.8946 11.4804 21 11.7348 21 12Z" fill="#000000"></path></svg>`,
-      Left: `<svg width="64px" height="64px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M3 12C3 11.7348 3.10536 11.4804 3.29289 11.2929L10.2929 4.29289C10.6834 3.90237 11.3166 3.90237 11.7071 4.29289C12.0976 4.68342 12.0976 5.31658 11.7071 5.70711L6.41421 11H20C20.5523 11 21 11.4477 21 12C21 12.5523 20.5523 13 20 13H6.41421L11.7071 18.2929C12.0976 18.6834 12.0976 19.3166 11.7071 19.7071C11.3166 20.0976 10.6834 20.0976 10.2929 19.7071L3.29289 12.7071C3.10536 12.5196 3 12.2652 3 12Z" fill="#000000"></path></svg>`,
-      Up: `<svg width="64px" height="64px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 3C12.2652 3 12.5196 3.10536 12.7071 3.29289L19.7071 10.2929C20.0976 10.6834 20.0976 11.3166 19.7071 11.7071C19.3166 12.0976 18.6834 12.0976 18.2929 11.7071L13 6.41421V20C13 20.5523 12.5523 21 12 21C11.4477 21 11 20.5523 11 20V6.41421L5.70711 11.7071C5.31658 12.0976 4.68342 12.0976 4.29289 11.7071C3.90237 11.3166 3.90237 10.6834 4.29289 10.2929L11.2929 3.29289C11.4804 3.10536 11.7348 3 12 3Z" fill="#000000"></path></svg>`,
-      Down: `<svg width="64px" height="64px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 21C11.7348 21 11.4804 20.8946 11.2929 20.7071L4.29289 13.7071C3.90237 13.3166 3.90237 12.6834 4.29289 12.2929C4.68342 11.9024 5.31658 11.9024 5.70711 12.2929L11 17.5858V4C11 3.44772 11.4477 3 12 3C12.5523 3 13 3.44772 13 4V17.5858L18.2929 12.2929C18.6834 11.9024 19.3166 11.9024 19.7071 12.2929C20.0976 12.6834 20.0976 13.3166 19.7071 13.7071L12.7071 20.7071C12.5196 20.8946 12.2652 21 12 21Z" fill="#000000"></path></svg>`,
+      Right: `<svg ${common}><path fill-rule="evenodd" clip-rule="evenodd" d="M21 12C21 12.2652 20.8946 12.5196 20.7071 12.7071L13.7071 19.7071C13.3166 20.0976 12.6834 20.0976 12.2929 19.7071C11.9024 19.3166 11.9024 18.6834 12.2929 18.2929L17.5858 13H4C3.44772 13 3 12.5523 3 12C3 11.4477 3.44772 11 4 11H17.5858L12.2929 5.70711C11.9024 5.31658 11.9024 4.68342 12.2929 4.29289C12.6834 3.90237 13.3166 3.90237 13.7071 4.29289L20.7071 11.2929C20.8946 11.4804 21 11.7348 21 12Z" fill="currentColor"></path></svg>`,
+      Left: `<svg ${common}><path fill-rule="evenodd" clip-rule="evenodd" d="M3 12C3 11.7348 3.10536 11.4804 3.29289 11.2929L10.2929 4.29289C10.6834 3.90237 11.3166 3.90237 11.7071 4.29289C12.0976 4.68342 12.0976 5.31658 11.7071 5.70711L6.41421 11H20C20.5523 11 21 11.4477 21 12C21 12.5523 20.5523 13 20 13H6.41421L11.7071 18.2929C12.0976 18.6834 12.0976 19.3166 11.7071 19.7071C11.3166 20.0976 10.6834 20.0976 10.2929 19.7071L3.29289 12.7071C3.10536 12.5196 3 12.2652 3 12Z" fill="currentColor"></path></svg>`,
+      Up: `<svg ${common}><path fill-rule="evenodd" clip-rule="evenodd" d="M12 3C12.2652 3 12.5196 3.10536 12.7071 3.29289L19.7071 10.2929C20.0976 10.6834 20.0976 11.3166 19.7071 11.7071C19.3166 12.0976 18.6834 12.0976 18.2929 11.7071L13 6.41421V20C13 20.5523 12.5523 21 12 21C11.4477 21 11 20.5523 11 20V6.41421L5.70711 11.7071C5.31658 12.0976 4.68342 12.0976 4.29289 11.7071C3.90237 11.3166 3.90237 10.6834 4.29289 10.2929L11.2929 3.29289C11.4804 3.10536 11.7348 3 12 3Z" fill="currentColor"></path></svg>`,
+      Down: `<svg ${common}><path fill-rule="evenodd" clip-rule="evenodd" d="M12 21C11.7348 21 11.4804 20.8946 11.2929 20.7071L4.29289 13.7071C3.90237 13.3166 3.90237 12.6834 4.29289 12.2929C4.68342 11.9024 5.31658 11.9024 5.70711 12.2929L11 17.5858V4C11 3.44772 11.4477 3 12 3C12.5523 3 13 3.44772 13 4V17.5858L18.2929 12.2929C18.6834 11.9024 19.3166 11.9024 19.7071 12.2929C20.0976 12.6834 20.0976 13.3166 19.7071 13.7071L12.7071 20.7071C12.5196 20.8946 12.2652 21 12 21Z" fill="currentColor"></path></svg>`,
     };
     return svgs[direction as keyof typeof svgs];
   }

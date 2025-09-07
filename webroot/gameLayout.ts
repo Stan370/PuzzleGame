@@ -17,7 +17,7 @@ export interface Level {
   dateCreated?: string;
 }
 
-export const BUILT_IN_LEVELS: Level[] = [
+export const BUILT_IN_LEVELS=[
   {
     name: "横刀立马",
     description: "相传曹操在赤壁之战后被围困于华容道，关羽放他离去。此局难度：★★★",

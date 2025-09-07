@@ -11,7 +11,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  min-height: 90vh;
   margin: 0;
   background: #2f2f2f;
   font-family: Arial, sans-serif;
@@ -19,15 +19,12 @@ body {
 
 .game-container {
   text-align: center;
-  height: 100%;
-
 }
 
 .board-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
 }
 
 .board {
